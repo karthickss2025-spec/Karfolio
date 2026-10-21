@@ -1,0 +1,177 @@
+---
+import "../styles/global.css";
+import ProjectModel from "../components/ProjectModel.astro";
+---
+
+<html lang="en">
+  <head>
+    <link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+/>
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+/>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Projects — Kar</title>
+  </head>
+
+  <body>
+    
+    <nav>
+      <a href="/" class="logo">KAR</a>
+
+      <div class="nav-links">
+        <a href="/">HOME</a>
+        <a href="/projects">ABOUT</a>
+        <a href="/art">SELECTED WORKS</a>
+      </div>
+    </nav>
+
+    <main class="projects-page">
+
+  <section class="project-intro">
+
+<div class="page-gradient"></div>
+
+    <p class="eyebrow">
+      AN INTRODUCTION
+    </p>
+
+    <h1>
+      ME.
+    </h1>
+
+    <p class="page-intro">
+      A self-made descriptor of who I am, and what my work makes me.
+    </p>
+
+    <div class="project-model">
+
+      <ProjectModel />
+
+    </div>
+
+    <p class="model-hint">
+      DRAG TO EXPLORE
+      <span>↔</span>
+    </p>
+
+  </section>
+
+
+  <!-- PROJECTS WILL GO HERE LATER -->
+
+  <section class="project-work">
+
+    <p class="eyebrow">
+      12th Grade Student
+    </p>
+
+    <h2>
+      Karthick Senthil Kumar
+    </h2>
+    <!--
+      We'll build the actual project cards
+      here later.
+    -->
+
+<div class="intro-text">
+
+  <p>
+    Hi! I'm Karthick, a student, artist, and developer interested in the pre-med track. Although at first glance, that may seem contradicting, I believe that art is a medium that can communicate between any two subjects; in my case, between medicine and technology.
+  </p>
+
+<p>
+  As for my passion and interest in the human body, I have always been fascinated by the work of art the body is. The intertwining of muscle fibers, the intricate yet precise nature of nerves that form our very consciousness- there's a certain beauty to be found there. 
+  Ever since I was a child, I understood the heavy burdens that doctors carried. My parents would continuously talk about the strain that we put our body through, and how we have a responsibility to take care of it. 
+  However, it was one incident that led to my sudden interest in medicine. My grandma was diagnosed with a spine tumor
+</p>
+
+  </div>
+
+    <img
+  src="/images/casual-me.png"
+  alt="Karthick relaxing"
+  class="casual-photo"
+/>
+
+  </section>
+
+</main>
+    <script>
+  const button = document.querySelector("#theme-toggle");
+
+  button?.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+
+    const isDark =
+      document.documentElement.classList.contains("dark");
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+</script>
+
+<footer class="site-footer">
+
+  <div class="footer-top">
+
+    <div>
+      <p class="eyebrow">GET IN TOUCH</p>
+
+      <h2>
+        Let's talk.
+      </h2>
+    </div>
+
+    <a
+      href="mailto:karthickss2025@gmail.com"
+      class="footer-email"
+    >
+      karthickss2025@gmail.com
+      <span>↗</span>
+    </a>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-links">
+
+      <a href="https://github.com/karthickss2025-spec">
+        GitHub
+      </a>
+
+      <a href="https://www.instagram.com/karthick_s2009/">
+        Instagram
+      </a>
+
+     
+    </div>
+
+    <p>
+      © 2026 Kar
+    </p>
+
+  </div>
+
+</footer>
+
+  </body>
+</html>

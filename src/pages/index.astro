@@ -1,0 +1,365 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+  <head>
+	<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+/>
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+/>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kar — Portfolio</title>
+    <meta
+      name="description"
+      content="Kar's personal portfolio."
+    />
+  </head>
+
+  <body>
+	<script>
+  const hero =
+    document.querySelector(".hero-content");
+
+
+  window.addEventListener(
+    "mousemove",
+    (event) => {
+
+      if (!hero) return;
+
+
+      const x =
+        (event.clientX /
+          window.innerWidth -
+          0.5) * 10;
+
+      const y =
+        (event.clientY /
+          window.innerHeight -
+          0.5) * 10;
+
+
+      hero.style.transform =
+        `translate(${x}px, ${y}px)`;
+
+    }
+  );
+</script>
+	<script>
+  const magneticElements =
+    document.querySelectorAll(
+      "[data-magnetic]"
+    );
+
+
+  magneticElements.forEach((element) => {
+
+    element.addEventListener(
+      "mousemove",
+      (event) => {
+
+        const rect =
+          element.getBoundingClientRect();
+
+        const x =
+          event.clientX -
+          rect.left -
+          rect.width / 2;
+
+        const y =
+          event.clientY -
+          rect.top -
+          rect.height / 2;
+
+
+        element.style.transform =
+          `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.1)`;
+
+      }
+    );
+
+
+    element.addEventListener(
+      "mouseleave",
+      () => {
+
+        element.style.transform =
+          "";
+
+      }
+    );
+
+  });
+</script>
+	<script>
+  const revealElements =
+    document.querySelectorAll(
+      ".about, .bio, .photo-container"
+    );
+
+  const revealObserver =
+    new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              "revealed"
+            );
+
+            revealObserver.unobserve(
+              entry.target
+            );
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+
+  revealElements.forEach((element) => {
+
+    element.classList.add("reveal");
+
+    revealObserver.observe(element);
+
+  });
+</script>
+	<div class="cursor-dot"></div>
+
+<div class="cursor-ring">
+  <span class="cursor-label"></span>
+</div>
+<script>
+  const cursorDot =
+    document.querySelector(".cursor-dot");
+
+  const cursorRing =
+    document.querySelector(".cursor-ring");
+
+  window.addEventListener("mousemove", (event) => {
+
+    const x = event.clientX;
+    const y = event.clientY;
+
+    if (cursorDot) {
+      cursorDot.style.left = `${x}px`;
+      cursorDot.style.top = `${y}px`;
+    }
+
+    if (cursorRing) {
+      cursorRing.animate(
+        {
+          left: `${x}px`,
+          top: `${y}px`
+        },
+        {
+          duration: 400,
+          fill: "forwards"
+        }
+      );
+    }
+
+  });
+
+
+  const interactiveElements =
+    document.querySelectorAll(
+      "a, button, img, .project-card, .art-piece"
+    );
+
+
+  interactiveElements.forEach((element) => {
+
+    element.addEventListener("mouseenter", () => {
+      document.body.classList.add("cursor-hover");
+    });
+
+    element.addEventListener("mouseleave", () => {
+      document.body.classList.remove("cursor-hover");
+    });
+
+  });
+</script>
+    <nav>
+      <a href="/" class="logo">KAR</a>
+
+      <div class="nav-links">
+  <a href="/">HOME</a>
+  <a href="/projects">ABOUT</a>
+  <a href="/art">SELECTED WORKS</a>
+
+  <button
+  id="theme-toggle"
+  aria-label="Toggle dark mode"
+  data-magnetic
+>
+  ◐
+</button>
+
+</div>
+    </nav>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+
+  <div class="hero-gradient"></div>
+
+  <div class="hero-content">
+
+    <p class="eyebrow">
+      PORTFOLIO · 2026
+    </p>
+
+    <div class="graffiti-name">
+
+      <img
+        src="/graffiti/KARTHICKPORTFOLIOTEXT.png"
+        alt="Karthick"
+        class="graffiti-light"
+      />
+
+      <img
+        src="/graffiti/CHROMECHROMECHROMEKAREMBOSS.png"
+        alt="Karthick"
+        class="graffiti-dark"
+      />
+
+    </div>
+
+    <div class="hero-person">
+      <img
+        src="/images/jojokar.png"
+        alt="Karthick wearing a suit"
+      />
+    </div>
+
+    <p class="subtitle">
+      STUDENT · ARTIST · DEVELOPER
+    </p>
+
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL TO EXPLORE</span>
+    <span class="arrow">↓</span>
+  </div>
+
+</section>
+
+      <!-- ABOUT -->
+      <section class="about">
+        <div class="photo-container">
+          <img
+            src="/jojokar.png"
+            alt="Karthick wearing a suit"
+          />
+        </div>
+
+        <div class="bio">
+          <p class="eyebrow">ABOUT ME</p>
+
+          <h2>You made it!</h2>
+
+          <p>
+            Hi! I'm Karthick, a student and artist interested in technology, medicine, programming, and creative work.
+          </p>
+
+          <p>
+            Typically, I spend my time building artistic pieces, experimenting with technology, and learning how things work.
+          </p>
+
+          <p>
+            This website is a collection of some of my works and the stories behind them. Pretty much a showcase of my interests and growth!
+          </p>
+        </div>
+      </section>
+    </main>
+	<script>
+  const button = document.querySelector("#theme-toggle");
+
+  button?.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+
+    const isDark =
+      document.documentElement.classList.contains("dark");
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+</script>
+
+<footer class="site-footer">
+
+  <div class="footer-top">
+
+    <div>
+      <p class="eyebrow">GET IN TOUCH</p>
+
+      <h2>
+        Let's talk.
+      </h2>
+    </div>
+
+    <a
+      href="mailto:karthickss2025@gmail.com"
+      class="footer-email"
+    >
+      karthickss2025@gmail.com
+      <span>↗</span>
+    </a>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-links">
+
+      <a href="https://github.com/karthickss2025-spec">
+        GitHub
+      </a>
+
+      <a href="https://www.instagram.com/karthick_s2009/">
+        Instagram
+      </a>
+
+     
+    </div>
+
+    <p>
+      © 2026 Kar
+    </p>
+
+  </div>
+
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,773 @@
+<div class="model-container">
+  <canvas id="project-canvas"></canvas>
+
+  <div class="model-loading">
+    <span>LOADING</span>
+  </div>
+</div>
+
+<style>
+  .model-container {
+    position: relative;
+
+    width: 100%;
+    height: 500px;
+
+    overflow: hidden;
+
+    cursor: grab;
+
+    touch-action: none;
+  }
+
+  .model-container:active {
+    cursor: grabbing;
+  }
+
+  #project-canvas {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+  }
+
+  .model-loading {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+
+    color: var(--muted);
+
+    transition: opacity 0.5s ease;
+  }
+
+  .model-loading.hidden {
+    opacity: 0;
+  }
+
+  @media (max-width: 700px) {
+    .model-container {
+      height: 400px;
+    }
+  }
+</style>
+
+<script>
+  import * as THREE from "three";
+
+  
+
+  import { GLTFLoader } from
+    "three/examples/jsm/loaders/GLTFLoader.js";
+
+
+  /* ============================= */
+  /* DOM                           */
+  /* ============================= */
+
+  const canvas =
+    document.querySelector("#project-canvas");
+
+  const container =
+    document.querySelector(".model-container");
+
+  const loading =
+    document.querySelector(".model-loading");
+
+
+  /* ============================= */
+  /* SCENE                         */
+  /* ============================= */
+
+  const scene =
+    new THREE.Scene();
+
+
+  /* ============================= */
+  /* CAMERA                        */
+  /* ============================= */
+
+  const camera =
+    new THREE.PerspectiveCamera(
+      35,
+      container.clientWidth /
+        container.clientHeight,
+      0.1,
+      100
+    );
+
+  camera.position.set(
+    0,
+    0,
+    6
+  );
+
+
+  /* ============================= */
+  /* RENDERER                      */
+  /* ============================= */
+
+  const renderer =
+    new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+
+
+  renderer.setPixelRatio(
+    Math.min(
+      window.devicePixelRatio,
+      2
+    )
+  );
+
+
+  renderer.setSize(
+    container.clientWidth,
+    container.clientHeight
+  );
+
+
+  renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
+
+
+/* ============================= */
+/* LIGHTING                      */
+/* ============================= */
+
+const ambientLight =
+  new THREE.AmbientLight(
+    0xffffff,
+    0.6
+  );
+
+scene.add(
+  ambientLight
+);
+
+
+/* Main warm light */
+
+const keyLight =
+  new THREE.DirectionalLight(
+    0xffffff,
+    3.5
+  );
+
+keyLight.position.set(
+  3,
+  5,
+  4
+);
+
+scene.add(
+  keyLight
+);
+
+
+/* Cool fill */
+
+const fillLight =
+  new THREE.DirectionalLight(
+    0xe8e8e8,
+    1.2
+  );
+
+fillLight.position.set(
+  -4,
+  2,
+  3
+);
+
+scene.add(
+  fillLight
+);
+
+
+/* Back/rim light */
+
+const rimLight =
+  new THREE.DirectionalLight(
+    0xffffff,
+    2
+  );
+
+rimLight.position.set(
+  0,
+  3,
+  -5
+);
+
+scene.add(
+  rimLight
+);
+
+  /* ============================= */
+  /* LOAD CUSTOM MODEL             */
+  /* ============================= */
+
+  let object = null;
+
+  const loader =
+    new GLTFLoader();
+
+    /* ============================= */
+/* STONE / MARBLE TEXTURE         */
+/* ============================= */
+
+const stoneCanvas =
+  document.createElement("canvas");
+
+const textureSize = 512;
+
+stoneCanvas.width = textureSize;
+stoneCanvas.height = textureSize;
+
+const ctx =
+  stoneCanvas.getContext("2d");
+
+const image =
+  ctx.createImageData(
+    textureSize,
+    textureSize
+  );
+
+
+/* Smooth noise */
+
+function smoothNoise(x, y) {
+
+  const ix = Math.floor(x);
+  const iy = Math.floor(y);
+
+  const fx = x - ix;
+  const fy = y - iy;
+
+  const a = Math.sin(
+    ix * 12.9898 +
+    iy * 78.233
+  ) * 43758.5453;
+
+  const b = Math.sin(
+    (ix + 1) * 12.9898 +
+    iy * 78.233
+  ) * 43758.5453;
+
+  const c = Math.sin(
+    ix * 12.9898 +
+    (iy + 1) * 78.233
+  ) * 43758.5453;
+
+  const d = Math.sin(
+    (ix + 1) * 12.9898 +
+    (iy + 1) * 78.233
+  ) * 43758.5453;
+
+  const aa = a - Math.floor(a);
+  const bb = b - Math.floor(b);
+  const cc = c - Math.floor(c);
+  const dd = d - Math.floor(d);
+
+  const sx =
+    fx * fx * (3 - 2 * fx);
+
+  const sy =
+    fy * fy * (3 - 2 * fy);
+
+  const top =
+    aa + (bb - aa) * sx;
+
+  const bottom =
+    cc + (dd - cc) * sx;
+
+  return (
+    top +
+    (bottom - top) * sy
+  );
+
+}
+
+
+/* ============================= */
+/* GENERATE STONE                */
+/* ============================= */
+
+for (
+  let y = 0;
+  y < textureSize;
+  y++
+) {
+
+  for (
+    let x = 0;
+    x < textureSize;
+    x++
+  ) {
+
+    /* Large irregular stone patches */
+
+    const large =
+      smoothNoise(
+        x * 0.025,
+        y * 0.025
+      );
+
+
+    /* Medium stone variation */
+
+    const medium =
+      smoothNoise(
+        x * 0.08,
+        y * 0.08
+      );
+
+
+    /* Very fine grain */
+
+    const fine =
+      smoothNoise(
+        x * 0.35,
+        y * 0.35
+      );
+
+
+    /*
+     * Combine them.
+     *
+     * The large noise dominates,
+     * creating broad irregular patches.
+     */
+
+    let value =
+      145 +
+      large * 45 +
+      medium * 18 +
+      fine * 6;
+
+
+    /*
+     * Occasional darker mineral spots
+     */
+
+    const spots =
+      smoothNoise(
+        x * 0.12 + 50,
+        y * 0.12 + 50
+      );
+
+
+    if (spots > 0.82) {
+
+      value -= 18;
+
+    }
+
+
+    /*
+     * Keep everything within
+     * a believable stone range.
+     */
+
+    value =
+      Math.max(
+        95,
+        Math.min(
+          195,
+          value
+        )
+      );
+
+
+    const i =
+      (y * textureSize + x) * 4;
+
+
+    image.data[i] =
+      value;
+
+    image.data[i + 1] =
+      value;
+
+    image.data[i + 2] =
+      value - 2;
+
+    image.data[i + 3] =
+      255;
+
+  }
+
+}
+
+
+ctx.putImageData(
+  image,
+  0,
+  0
+);
+
+
+const stoneTexture =
+  new THREE.CanvasTexture(
+    stoneCanvas
+  );
+
+stoneTexture.colorSpace =
+  THREE.SRGBColorSpace;
+
+stoneTexture.wrapS =
+  THREE.RepeatWrapping;
+
+stoneTexture.wrapT =
+  THREE.RepeatWrapping;
+
+stoneTexture.repeat.set(
+  1.5,
+  1.5
+);
+
+
+
+  loader.load(
+
+  "/models/mannequin-head.glb",
+
+  (gltf) => {
+
+    object = gltf.scene;
+
+object.traverse((child) => {
+
+  if (child.isMesh) {
+
+    child.material =
+      new THREE.MeshStandardMaterial({
+
+        map: stoneTexture,
+
+        color: 0xaaa9a3,
+
+        roughness: 0.95,
+
+        metalness: 0
+
+      });
+
+  }
+
+});
+
+
+    /* ============================= */
+    /* SCALE                          */
+    /* ============================= */
+
+    object.scale.set(
+      0.2,
+      0.2,
+      0.2
+    );
+
+
+    /* ============================= */
+    /* CENTER                         */
+    /* ============================= */
+
+    const box =
+      new THREE.Box3()
+        .setFromObject(object);
+
+    const center =
+      box.getCenter(
+        new THREE.Vector3()
+      );
+
+    object.position.sub(
+      center
+    );
+
+
+    scene.add(object);
+
+
+    loading.classList.add(
+      "hidden"
+    );
+
+  },
+
+  undefined,
+
+  (error) => {
+
+    console.error(
+      "Could not load mannequin-head.glb:",
+      error
+    );
+
+  }
+
+);
+
+
+  /* ============================= */
+  /* HEAVY ROTATION                */
+  /* ============================= */
+
+  let targetRotationX = 0;
+
+  let targetRotationY = 0;
+
+  let currentRotationX = 0;
+
+  let currentRotationY = 0;
+
+  let velocityX = 0;
+
+  let velocityY = 0;
+
+  let isDragging = false;
+
+  let previousX = 0;
+
+  let previousY = 0;
+
+
+  /* ============================= */
+  /* DRAGGING                      */
+  /* ============================= */
+
+  function pointerDown(event) {
+
+    isDragging = true;
+
+    previousX =
+      event.clientX;
+
+    previousY =
+      event.clientY;
+
+    velocityX = 0;
+
+    velocityY = 0;
+
+
+    container.setPointerCapture(
+      event.pointerId
+    );
+
+  }
+
+
+  function pointerMove(event) {
+
+    if (!isDragging)
+      return;
+
+
+    const deltaX =
+      event.clientX -
+      previousX;
+
+    const deltaY =
+      event.clientY -
+      previousY;
+
+
+    /*
+     * LOW VALUE =
+     * HEAVIER OBJECT
+     */
+
+    velocityY +=
+      deltaX * 0.0005;
+
+    velocityX +=
+      deltaY * 0.0005;
+
+
+    previousX =
+      event.clientX;
+
+    previousY =
+      event.clientY;
+
+  }
+
+
+  function pointerUp(event) {
+
+    isDragging = false;
+
+
+    try {
+
+      container.releasePointerCapture(
+        event.pointerId
+      );
+
+    } catch {}
+
+  }
+
+
+  container.addEventListener(
+    "pointerdown",
+    pointerDown
+  );
+
+  container.addEventListener(
+    "pointermove",
+    pointerMove
+  );
+
+  container.addEventListener(
+    "pointerup",
+    pointerUp
+  );
+
+  container.addEventListener(
+    "pointercancel",
+    pointerUp
+  );
+
+
+  /* ============================= */
+  /* RESIZE                        */
+  /* ============================= */
+
+  function resize() {
+
+    const width =
+      container.clientWidth;
+
+    const height =
+      container.clientHeight;
+
+
+    camera.aspect =
+      width / height;
+
+
+    camera.updateProjectionMatrix();
+
+
+    renderer.setSize(
+      width,
+      height
+    );
+
+  }
+
+
+  window.addEventListener(
+    "resize",
+    resize
+  );
+
+
+  /* ============================= */
+  /* ANIMATION                     */
+  /* ============================= */
+
+  const clock =
+    new THREE.Clock();
+
+
+  function animate() {
+
+    requestAnimationFrame(
+      animate
+    );
+
+
+    const elapsed =
+      clock.getElapsedTime();
+
+
+    if (object) {
+
+  /* ============================= */
+  /* IDLE ROTATION                  */
+  /* ============================= */
+
+  if (!isDragging) {
+
+    targetRotationY +=
+      0.00035;
+
+  }
+
+
+  /* ============================= */
+  /* MOMENTUM                       */
+  /* ============================= */
+
+  targetRotationY +=
+    velocityY;
+
+  targetRotationX +=
+    velocityX;
+
+
+  velocityX *= 0.94;
+
+  velocityY *= 0.94;
+
+
+  /* ============================= */
+  /* SMOOTH MOVEMENT                */
+  /* ============================= */
+
+  currentRotationX +=
+    (
+      targetRotationX -
+      currentRotationX
+    ) * 0.045;
+
+  currentRotationY +=
+    (
+      targetRotationY -
+      currentRotationY
+    ) * 0.045;
+
+
+  object.rotation.x =
+    currentRotationX;
+
+  object.rotation.y =
+    currentRotationY;
+
+
+  /* ============================= */
+  /* FLOAT                          */
+  /* ============================= */
+
+  object.position.y =
+    Math.sin(
+      elapsed * 0.8
+    ) * 0.025;
+
+}
+
+
+    renderer.render(
+      scene,
+      camera
+    );
+
+  }
+
+
+  animate();
+</script>

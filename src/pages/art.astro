@@ -1,0 +1,739 @@
+---
+import "../styles/global.css";
+
+const artworks = [
+  {
+    title: "Artwork One",
+    image: "/art/art1.jpg",
+    type: "Digital Illustration",
+    year: "2026",
+  category: "digital",
+    description:
+      "A digital piece exploring light, composition, and character design."
+  },
+
+  {
+    title: "Artwork Two",
+    image: "/art/art2.jpg",
+    type: "Digital Art",
+    year: "2026",
+  category: "digital",
+    description:
+      "A study focused on color, atmosphere, and visual storytelling."
+  },
+
+  {
+    title: "Artwork Three",
+    image: "/art/art3.jpg",
+    type: "Digital Illustration",
+    year: "2025",
+  category: "digital",
+    description:
+      "An experimental illustration."
+  },
+
+  {
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+},
+
+{
+  title: "My New Piece",
+  image: "/art/art3.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  category: "digital",
+  description:
+    "A description of what I made and why."
+}
+];
+---
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width"
+  />
+
+  <title>Kar — Art</title>
+
+  <script is:inline>
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+</script>
+</head>
+
+
+<body>
+
+  <nav>
+
+    <a href="/" class="logo">
+      KAR
+    </a>
+
+    <div class="nav-links">
+
+      <a href="/">
+        HOME
+      </a>
+
+      <a href="/projects">
+        ABOUT
+      </a>
+
+      <a href="/art">
+        SELECTED WORKS
+      </a>
+
+      
+
+    </div>
+
+  </nav>
+
+
+  <main class="page">
+
+    <div class="page-gradient"></div>
+
+    <p class="eyebrow">
+      SELECTED WORKS
+    </p>
+
+    <h1>
+      Art.
+    </h1>
+
+    <p class="page-intro">
+      A collection of illustrations, experiments,
+      and other creative work.
+    </p>
+
+<div class="art-filters">
+
+  <button
+    class="filter-button active"
+    data-filter="all"
+  >
+    All
+  </button>
+
+  <button
+    class="filter-button"
+    data-filter="digital"
+  >
+    Digital
+  </button>
+
+  <button
+    class="filter-button"
+    data-filter="traditional"
+  >
+    Traditional
+  </button>
+
+  <button
+    class="filter-button"
+    data-filter="character"
+  >
+    Character
+  </button>
+
+</div>
+
+    <div class="art-grid">
+
+      {
+        artworks.map((artwork, index) => (
+
+          <article
+  class="art-piece"
+  data-index={index}
+  data-category={artwork.category}
+>
+
+            <img
+              src={artwork.image}
+              alt={artwork.title}
+              loading="lazy"
+            />
+
+            <div class="art-hover">
+
+              <span>
+                VIEW
+              </span>
+
+            </div>
+
+          </article>
+
+        ))
+      }
+
+    </div>
+
+  </main>
+
+
+  <!-- ART VIEWER -->
+
+  <div
+    class="art-viewer"
+    id="art-viewer"
+    aria-hidden="true"
+  >
+
+  <div
+  class="viewer-counter"
+  id="viewer-counter"
+>
+  01 / 01
+</div>
+
+    <button
+      class="viewer-close"
+      id="viewer-close"
+      aria-label="Close artwork"
+    >
+      ×
+    </button>
+
+
+    <button
+      class="viewer-prev"
+      id="viewer-prev"
+      aria-label="Previous artwork"
+    >
+      ←
+    </button>
+
+
+    <div class="viewer-content">
+
+      <div class="viewer-image-container">
+
+        <img
+          id="viewer-image"
+          src=""
+          alt=""
+        />
+
+      </div>
+
+
+      <div class="viewer-info">
+
+  <p
+    class="eyebrow"
+    id="viewer-type"
+  ></p>
+
+  <h2
+    id="viewer-title"
+  ></h2>
+
+  <p
+    id="viewer-description"
+  ></p>
+
+  <div class="viewer-meta">
+
+    <div>
+      <span>YEAR</span>
+      <strong id="viewer-year"></strong>
+    </div>
+
+    <div>
+      <span>MEDIUM</span>
+      <strong id="viewer-medium"></strong>
+    </div>
+
+    <div>
+      <span>SOFTWARE</span>
+      <strong id="viewer-software"></strong>
+    </div>
+
+  </div>
+
+</div>
+
+    </div>
+
+
+    <button
+      class="viewer-next"
+      id="viewer-next"
+      aria-label="Next artwork"
+    >
+      →
+    </button>
+
+
+    
+  </div>
+
+
+  <script define:vars={{ artworks }}>
+
+    const viewer =
+      document.querySelector("#art-viewer");
+
+    const viewerImage =
+      document.querySelector("#viewer-image");
+
+    const viewerTitle =
+      document.querySelector("#viewer-title");
+
+    const viewerDescription =
+      document.querySelector(
+        "#viewer-description"
+      );
+
+    const viewerType =
+      document.querySelector("#viewer-type");
+
+    const viewerYear =
+      document.querySelector("#viewer-year");
+
+      const viewerMedium =
+  document.querySelector("#viewer-medium");
+
+const viewerSoftware =
+  document.querySelector("#viewer-software");
+
+const viewerCounter =
+  document.querySelector("#viewer-counter");
+
+    const pieces =
+      document.querySelectorAll(
+        ".art-piece"
+      );
+
+
+    let currentIndex = 0;
+
+
+    function openArtwork(index) {
+
+      const artwork =
+        artworks[index];
+
+      currentIndex = index;
+
+
+      viewerImage.src =
+        artwork.image;
+
+      viewerImage.alt =
+        artwork.title;
+
+      viewerTitle.textContent =
+        artwork.title;
+
+      viewerDescription.textContent =
+        artwork.description;
+
+      viewerType.textContent =
+        artwork.type;
+
+      viewerYear.textContent =
+  artwork.year;
+
+viewerMedium.textContent =
+  artwork.medium || "—";
+
+viewerSoftware.textContent =
+  artwork.software || "—";
+
+viewerCounter.textContent =
+  `${String(index + 1).padStart(2, "0")} / ${String(artworks.length).padStart(2, "0")}`;
+
+      viewer.classList.remove("viewer-changing");
+
+requestAnimationFrame(() => {
+  viewer.classList.add("active");
+});
+  
+  viewer.classList.add(
+        "active"
+      );
+
+      viewer.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    function closeArtwork() {
+
+      viewer.classList.remove(
+        "active"
+      );
+
+      viewer.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    function nextArtwork() {
+
+  viewer.classList.add("changing");
+
+  setTimeout(() => {
+
+    currentIndex =
+      (currentIndex + 1) %
+      artworks.length;
+
+    openArtwork(currentIndex);
+
+    viewer.classList.remove("changing");
+
+  }, 200);
+
+}
+
+
+    function previousArtwork() {
+
+  viewer.classList.add("changing");
+
+  setTimeout(() => {
+
+    currentIndex =
+      (currentIndex - 1 + artworks.length) %
+      artworks.length;
+
+    openArtwork(currentIndex);
+
+    viewer.classList.remove("changing");
+
+  }, 200);
+
+}
+
+
+    pieces.forEach(
+      (piece, index) => {
+
+        piece.addEventListener(
+          "click",
+          () => {
+
+            openArtwork(index);
+
+          }
+        );
+
+      }
+    );
+
+
+    document
+      .querySelector("#viewer-close")
+      .addEventListener(
+        "click",
+        closeArtwork
+      );
+
+
+    document
+      .querySelector("#viewer-next")
+      .addEventListener(
+        "click",
+        nextArtwork
+      );
+
+
+    document
+      .querySelector("#viewer-prev")
+      .addEventListener(
+        "click",
+        previousArtwork
+      );
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          !viewer.classList.contains(
+            "active"
+          )
+        ) return;
+
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeArtwork();
+
+        }
+
+
+        if (
+          event.key === "ArrowRight"
+        ) {
+
+          nextArtwork();
+
+        }
+
+
+        if (
+          event.key === "ArrowLeft"
+        ) {
+
+          previousArtwork();
+
+        }
+
+      }
+    );
+
+
+  const filterButtons =
+    document.querySelectorAll(
+      ".filter-button"
+    );
+
+  const artPieces =
+    document.querySelectorAll(
+      ".art-piece"
+    );
+
+
+  filterButtons.forEach((button) => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const filter =
+          button.dataset.filter;
+
+
+        /* Update active button */
+
+        filterButtons.forEach((btn) => {
+          btn.classList.remove(
+            "active"
+          );
+        });
+
+        button.classList.add(
+          "active"
+        );
+
+
+        /* Filter artwork */
+
+        artPieces.forEach((piece) => {
+
+          const category =
+            piece.dataset.category;
+
+
+          if (
+            filter === "all" ||
+            category === filter
+          ) {
+
+            piece.classList.remove(
+              "hidden"
+            );
+
+          } else {
+
+            piece.classList.add(
+              "hidden"
+            );
+
+          }
+
+        });
+
+      }
+    );
+
+  });
+
+
+  </script>
+
+<footer class="site-footer">
+
+  <div class="footer-top">
+
+    <div>
+      <p class="eyebrow">GET IN TOUCH</p>
+
+      <h2>
+        Let's talk.
+      </h2>
+    </div>
+
+    <a
+      href="mailto:karthickss2025@gmail.com"
+      class="footer-email"
+    >
+      karthickss2025@gmail.com
+      <span>↗</span>
+    </a>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-links">
+
+      <a href="https://github.com/karthickss2025-spec">
+        GitHub
+      </a>
+
+      <a href="https://www.instagram.com/karthick_s2009/">
+        Instagram
+      </a>
+
+     
+    </div>
+
+    <p>
+      © 2026 Kar
+    </p>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

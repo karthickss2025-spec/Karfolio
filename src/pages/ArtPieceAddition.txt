@@ -1,0 +1,8 @@
+{
+  title: "My New Piece",
+  image: "/art/my-piece.jpg",
+  type: "Digital Illustration",
+  year: "2026",
+  description:
+    "A description of what I made and why."
+}
