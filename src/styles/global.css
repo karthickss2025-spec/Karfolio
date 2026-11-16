@@ -606,7 +606,7 @@ transition: transform 0.15s ease-out;
 
   margin: auto;
 
-  padding: 140px 25px 100px;
+  padding: 180px 50px 120px;
 }
 
 .page h1 {
@@ -821,8 +821,11 @@ html.dark .project-card:hover {
   }
 
   .page {
-    padding: 180px 50px 120px;
-  }
+  width: 100%;
+  max-width: 100%;
+  padding: 140px 24px 80px;
+  overflow-x: clip;
+}
 
   .page-gradient {
     width: 100%;
@@ -2293,4 +2296,40 @@ html.dark .person-dark {
   .hero-person img {
     transition-duration: 0.01ms !important;
   }
+}
+
+/* MOBILE WIDTH FIX */
+@media (max-width: 700px) {
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .page,
+  .art-grid,
+  .art-piece {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .art-grid {
+    columns: 1;
+    column-gap: 0;
+  }
+
+  .art-piece img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .page-gradient {
+  width: 100%;
+  max-width: 100%;
+  left: 0;
+  transform: none;
+}
 }
