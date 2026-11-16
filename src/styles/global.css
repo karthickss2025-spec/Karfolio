@@ -163,8 +163,7 @@ nav {
 
   background: var(--nav-background);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
 
   border-bottom: 1px solid transparent;
 
