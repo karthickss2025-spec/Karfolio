@@ -149,10 +149,8 @@ button {
 
 nav {
   position: fixed;
-
   top: 0;
   left: 0;
-
   width: 100%;
 
   display: flex;
@@ -163,12 +161,7 @@ nav {
 
   z-index: 100;
 
-  nav {
   background: var(--nav-background);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -797,7 +790,7 @@ html.dark .project-card:hover {
 /* MOBILE                       */
 /* ============================= */
 
-@media (max-width: 700px) {
+@media (max-width: 1200px) {
 
   nav {
     padding: 22px 25px;
@@ -826,7 +819,11 @@ html.dark .project-card:hover {
   }
 
   .page {
-    padding: 140px 25px 80px;
+    padding: 180px 50px 120px;
+  }
+
+  .page-gradient {
+    width: 100%;
   }
 
 }

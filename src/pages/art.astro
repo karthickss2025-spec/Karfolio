@@ -176,6 +176,7 @@ const artworks = [
 </head>
 
 
+
 <body>
 
   <nav>
@@ -198,7 +199,7 @@ const artworks = [
         SELECTED WORKS
       </a>
 
-      
+      <button id="theme-toggle" aria-label="Toggle dark mode" data-magnetic>◐</button>
 
     </div>
 
@@ -733,6 +734,24 @@ requestAnimationFrame(() => {
   </div>
 
 </footer>
+
+<script>
+  const themeButton = document.querySelector("#theme-toggle");
+
+  themeButton?.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+
+    const isDark = document.documentElement.classList.contains("dark");
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    themeButton.setAttribute("aria-pressed", String(isDark));
+    themeButton.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+  });
+</script>
 
 </body>
 
