@@ -1,3 +1,5 @@
+
+
 .hero-person {
   position: absolute;
 
@@ -359,51 +361,59 @@ html.dark .hero-gradient {
 transition: transform 0.15s ease-out;
 }
 
-
-
 .hero::before {
   content: "";
-
   position: absolute;
-
   width: 600px;
   height: 600px;
-
   border-radius: 50%;
-
   background: radial-gradient(
     circle,
-    rgba(120, 120, 120, 0.08),
+    rgba(120, 120, 120, 0.07),
     transparent 70%
   );
-
-  filter: blur(20px);
-
-  animation: ambient 8s ease-in-out infinite;
-
   pointer-events: none;
+  animation: ambient 14s ease-in-out infinite;
+  z-index: -1;
 }
 
 @keyframes ambient {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(-10%, -10%) scale(1);
+    opacity: 0.7;
   }
 
   50% {
-    transform: translate(10%, 10%) scale(1.2);
+    transform: translate(10%, 10%) scale(1.12);
+    opacity: 1;
   }
-
 }
 
 .hero-content {
   position: relative;
+  width: 100%;
+  max-width: 1400px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   z-index: 2;
 
-  animation: heroIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1)
-    forwards;
+  transform: translate(var(--mouse-x, 0px), var(--mouse-y, 0px));
+  transition: transform 0.15s ease-out;
+
+  animation: heroFadeIn 1.2s ease forwards;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .hero h1 {
@@ -462,6 +472,8 @@ transition: transform 0.15s ease-out;
 
   opacity: 0.6;
 }
+
+
 
 /* ============================= */
 /* SCROLL INDICATOR              */
@@ -2125,4 +2137,141 @@ html.dark .page-gradient {
 
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a, button {
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================= */
+/* THEME TRANSITIONS              */
+/* ============================= */
+
+:root {
+  color-scheme: light;
+
+  --theme-duration: 800ms;
+  --theme-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Main page colors */
+body,
+nav,
+.project-card,
+.art-piece,
+footer,
+#theme-toggle {
+  transition:
+    background 600ms var(--theme-easing),
+    color 600ms var(--theme-easing),
+    border-color 600ms var(--theme-easing),
+    box-shadow 600ms var(--theme-easing);
+}
+
+/* Ambient hero lighting */
+.hero-gradient {
+  transition:
+    background var(--theme-duration) var(--theme-easing);
+}
+
+/* Graffiti image crossfade */
+.graffiti-name img {
+  transition: opacity var(--theme-duration) var(--theme-easing);
+}
+
+/* Portrait crossfade */
+.hero-person {
+  position: absolute;
+}
+
+.hero-person img {
+  transition:
+    opacity var(--theme-duration) var(--theme-easing);
+}
+
+.person-light {
+  opacity: 1;
+}
+
+.person-dark {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+html.dark .person-light {
+  opacity: 0;
+}
+
+html.dark .person-dark {
+  opacity: 1;
+}
+
+/* Theme button animation */
+#theme-toggle {
+  transition:
+    transform 350ms ease,
+    background-color var(--theme-duration) ease,
+    color var(--theme-duration) ease,
+    border-color var(--theme-duration) ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(30deg) scale(1.1);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  nav,
+  .project-card,
+  .art-piece,
+  footer,
+  #theme-toggle,
+  .hero-gradient,
+  .graffiti-name img,
+  .hero-person img {
+    transition-duration: 0.01ms !important;
+  }
 }
